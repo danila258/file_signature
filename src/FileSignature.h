@@ -3,7 +3,12 @@
 
 #include <string>
 #include <stdexcept>
+#include <algorithm>
 #include <fstream>
+#include <iostream>
+
+#include <boost/iostreams/device/mapped_file.hpp>
+#include <boost/crc.hpp>
 
 
 class FileSignature
@@ -15,7 +20,7 @@ public:
 private:
     std::string _inputFilePath;
     std::string _outputFilePath;
-    unsigned long _blockSize = 1024ul;  // 1MB
+    unsigned long long _blockByteCount = 1024ul * 1024ul;  // 1MB by default
 };
 
 
