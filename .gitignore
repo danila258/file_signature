@@ -1,5 +1,6 @@
 # IDE
 .idea
+src/cmake-build-debug
 
 # Prerequisites
 *.d
