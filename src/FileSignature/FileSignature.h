@@ -15,7 +15,9 @@ class FileSignature
 {
 public:
     FileSignature(int argc, char* argv[]);
-    void calculate();
+    FileSignature(std::string_view input, std::string_view output, size_t blockByteCount = 1);
+
+    void generate();
 
 private:
     std::string _inputFilePath;

@@ -1,18 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-project(file_signature)
+project(test)
 
 set(CMAKE_CXX_STANDARD 17)
-
-# lots of warnings and all warnings as errors
-if (MSVC)
-    add_compile_options(/W4 /WX)
-else()
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
-endif()
-
-add_subdirectory(FileSignature)
-add_subdirectory(lib/googletest)
-add_subdirectory(test)
 
 # set Boost options
 set(Boost_USE_STATIC_LIBS        OFF)
@@ -25,8 +14,12 @@ set(Boost_USE_STATIC_RUNTIME     OFF)
 find_package(Boost REQUIRED COMPONENTS iostreams REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp test.cpp)
+
+add_test(NAME ${PROJECT_NAME} COMMAND test)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+                      FileSignature
                       ${Boost_LIBRARIES}
-                      FileSignature)
+                      gtest
+                      )

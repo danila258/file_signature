@@ -2,6 +2,7 @@
 
 FileSignature::FileSignature(int argc, char* argv[])
 {
+    // check number of arguments
     if (argc != 3 && argc != 4)
     {
         throw std::invalid_argument("invalid number of arguments");
@@ -29,7 +30,16 @@ FileSignature::FileSignature(int argc, char* argv[])
     }
 }
 
-void FileSignature::calculate()
+FileSignature::FileSignature(std::string_view input, std::string_view output, size_t blockByteCount)
+                             : _inputFilePath(input), _outputFilePath(output), _blockByteCount(blockByteCount)
+{
+    if (blockByteCount == 0)
+    {
+        throw std::invalid_argument("invalid block size argument");
+    }
+}
+
+void FileSignature::generate()
 {
     // create and open input file
     boost::iostreams::mapped_file_source inputFile;
@@ -52,25 +62,18 @@ void FileSignature::calculate()
         throw std::runtime_error("can't open output file");
     }
 
-    // calculate file signature using two pointers to the beginning and end of the block and the CRC-16 algorithm
+    // generate file signature using pointer to the beginning of the block and the CRC-32 algorithm
     auto startBlock = inputFile.begin();
-    auto endBlock = startBlock + _blockByteCount;
+    boost::crc_32_type crc;
 
-    boost::crc_16_type crc;
-
-    while (endBlock < inputFile.end())
+    for (; startBlock + _blockByteCount < inputFile.end(); startBlock += _blockByteCount)
     {
-        crc.process_block(startBlock, endBlock);
-
-        std::cout << crc.checksum() << std::endl;
-        outputFile << crc.checksum() << std::endl;
-
-        startBlock += _blockByteCount;
-        endBlock += _blockByteCount;
+        crc.process_bytes(startBlock, _blockByteCount);
+        outputFile << std::hex << crc.checksum() << std::endl;
         crc.reset();
     }
 
-    // calculate signature of the final block of the file
-    crc.process_block(startBlock, inputFile.end() - 1);
-    std::cout << crc.checksum() << std::endl;
+    // generate signature of the final block of the file
+    crc.process_block(startBlock, inputFile.end());
+    outputFile << std::hex << crc.checksum() << std::endl;
 }

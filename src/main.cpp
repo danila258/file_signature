@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
     try
     {
         FileSignature fs(argc, argv);
-        fs.calculate();
+        fs.generate();
     }
     catch (std::exception& e)
     {
