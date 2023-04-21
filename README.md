@@ -8,7 +8,7 @@
 ## Build
 
 ```shell
-cmake cmake -S ./ -B build_dir -D CMAKE_BUILD_TYPE=Release
+cmake -S ./ -B build_dir -D CMAKE_BUILD_TYPE=Release
 cmake --build build_dir
 ```
 
