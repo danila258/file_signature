@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <algorithm>
 #include <fstream>
-#include <iostream>
 
 #include <boost/iostreams/device/mapped_file.hpp>
 #include <boost/crc.hpp>

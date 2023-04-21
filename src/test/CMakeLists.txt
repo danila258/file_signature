@@ -11,7 +11,7 @@ set(Boost_USE_MULTITHREADED       ON)
 set(Boost_USE_STATIC_RUNTIME     OFF)
 
 # find Boost
-find_package(Boost REQUIRED COMPONENTS iostreams REQUIRED)
+find_package(Boost 1.78.0 REQUIRED COMPONENTS iostreams REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} main.cpp test.cpp)
