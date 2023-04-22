@@ -9,9 +9,10 @@ constexpr auto testFilePath = "test.txt";
 constexpr auto signatureFilePath = "signature.txt";
 constexpr auto testsCount = 100;
 constexpr auto numsMaxCount = 10000;
-constexpr auto blockSizeMax = 10000;
+constexpr auto blockSizeMax = 1024;
 
 
+// read ready signature from file line by line
 std::vector<std::string> getReadySignature(const std::string& filePath)
 {
     std::ifstream file(filePath);
@@ -31,6 +32,7 @@ std::vector<std::string> getReadySignature(const std::string& filePath)
     return signatureArr;
 }
 
+// convert number to hex string
 std::string toHex(size_t num)
 {
     std::stringstream stream;
@@ -53,16 +55,19 @@ TEST(Signature, Test1)
         size_t blockSize = dice() % blockSizeMax;
         unsigned long numsCount = dice() % numsMaxCount;
 
+        // generate random line
         for (size_t j = 0; j < numsCount; ++j)
         {
             line += std::to_string( dice() );
         }
 
+        // white random line to file
         std::ofstream file(testFilePath);
         ASSERT_TRUE(file.is_open());
         file << line;
         file.close();
 
+        // generate signature
         FileSignature signature(testFilePath, signatureFilePath, blockSize);
         signature.generate();
 

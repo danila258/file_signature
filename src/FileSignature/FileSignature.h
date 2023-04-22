@@ -10,18 +10,21 @@
 #include <boost/crc.hpp>
 
 
+constexpr unsigned long defaultBlockSize = 1024ul * 1024ul;  // 1MB by default
+
+
 class FileSignature
 {
 public:
     FileSignature(int argc, char* argv[]);
-    FileSignature(std::string_view input, std::string_view output, size_t blockByteCount = 1);
+    FileSignature(std::string_view input, std::string_view output, unsigned long long blockSize = defaultBlockSize);
 
     void generate();
 
 private:
     std::string _inputFilePath;
     std::string _outputFilePath;
-    unsigned long long _blockByteCount = 1024ul * 1024ul;  // 1MB by default
+    unsigned long long _blockSize = defaultBlockSize;  // 1MB by default
 };
 
 
