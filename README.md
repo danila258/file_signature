@@ -2,8 +2,9 @@
 A console program for generating the signature of the specified file.
 
 ## Requirements
-* Boost 1.78.0
 * C++17
+* Boost 1.78.0
+* GTest 1.13.0
 * CMake 3.5
 
 ## Build
