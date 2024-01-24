@@ -1,4 +1,5 @@
 # file_signature
+A console program for generating the signature of the specified file.
 
 ## Requirements
 * Boost 1.78.0
