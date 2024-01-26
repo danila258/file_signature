@@ -1,6 +1,10 @@
 # file_signature
 A console program for generating the signature of the specified file.
 
+# Usage
+```shell
+file_signature input_file output_file block_size
+```
 ## Requirements
 * C++17
 * Boost 1.78.0
